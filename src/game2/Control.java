@@ -376,7 +376,7 @@ public class Control {
 			data.monStat[3][3] = (int) (Math.random() * 8 + 2);
 			break;
 		case 5:
-			
+//			
 			break;
 		case 6:
 			
