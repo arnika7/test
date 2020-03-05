@@ -8,6 +8,7 @@ public class Start {
 		
 		ui.setVisible(true);
 		
+		
 		Move move = new Move(con , data ,ui);
 		move.start();
 
