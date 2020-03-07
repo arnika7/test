@@ -10,6 +10,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
+import java.io.Serializable;
+import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Gui extends JFrame {
 	JPanel contentPane;
@@ -116,7 +119,11 @@ public class Gui extends JFrame {
 	private JTextField mp;
 	JTextField monHp;
 	JTextField stage;
-	String[] monster = {" 토끼"," 사슴"," 여우"," 늑대","호랑이","  곰","코끼리"};
+	String[] monster = {"다람쥐"," 토끼"," 사슴"," 여우","멧돼지"," 늑대"," 사자","호랑이","  곰","코끼리"};
+	private JTextField maxHp;
+	private JTextField atk;
+	private JTextField def;
+	private JTextField re;
 
 	/**
 	 * Launch the application.
@@ -326,6 +333,9 @@ public class Gui extends JFrame {
 		tx96.setText("");
 		tx97.setText("");
 		tx98.setText("");
+		for (int i = 0; i < 20; i++) {
+			setRed(data.redZone[i]);
+		}
 
 		setT(data.playX, data.playY, "Me");
 		for (int i = 0; i < 6; i++) {
@@ -334,8 +344,14 @@ public class Gui extends JFrame {
 		for (int j = 0; j < 10; j++) {
 			setT(data.star[j][0],data.star[j][1],"   ★");
 		}
+		setT(data.randomX,data.randomY,"    ?");
+		
 		hp.setText(" HP: " + data.playH);
 		mp.setText(" MP: " + data.playM);
+		maxHp.setText(" 체력 : "+data.playMaxHp);
+		atk.setText(" 공격 : "+data.playAtk);
+		def.setText(" 방어 : "+data.playDef);
+		re.setText(" 재생 : "+data.playReHp);
 	}
 
 	public void setT(int x, int y, String name) {
@@ -889,38 +905,38 @@ public class Gui extends JFrame {
 		}
 	}
 
-	public void randomRed(int i) {
+	public void randomRed(Data data,int i) {
 		if (i == 0)
 			return;
 		int rd;
 		while (true) {
 			rd = (int) (Math.random() * 100);
+			data.redZone[i] = rd;
 			if (rd % 10 != 9)
 				break;
 		}
-		setRed(rd);
-		randomRed(--i);
+		randomRed(data,--i);
 	}
 
-	public void makeTrap(int i) {
+	public void makeTrap(Data data,int i) {
 		switch (i) {
 		case 1:
-			randomRed(5);
+			randomRed(data,5);
 			break;
 		case 2:
-			randomRed(7);
+			randomRed(data,7);
 			break;
 		case 3:
-			randomRed(9);
+			randomRed(data,9);
 			break;
 		case 4:
-			randomRed(11);
+			randomRed(data,11);
 			break;
 		case 5:
-			randomRed(14);
+			randomRed(data,14);
 			break;
 		case 6:
-			randomRed(17);
+			randomRed(data,17);
 			break;
 		}
 	}
@@ -1938,35 +1954,39 @@ public class Gui extends JFrame {
 		contentPane.add(tx50);
 
 		btn2 = new JButton("");
-		btn2.setBounds(381, 617, 151, 46);
+		btn2.setFont(new Font("굴림", Font.PLAIN, 14));
+		btn2.setBounds(381, 628, 151, 46);
 		contentPane.add(btn2);
 
 		btn4 = new JButton("");
-		btn4.setBounds(381, 690, 151, 46);
+		btn4.setFont(new Font("굴림", Font.PLAIN, 14));
+		btn4.setBounds(381, 701, 151, 46);
 		contentPane.add(btn4);
 
 		btnUp = new JButton("");
-		btnUp.setBounds(260, 617, 40, 40);
+		btnUp.setBounds(260, 628, 40, 40);
 		contentPane.add(btnUp);
 
 		btnLeft = new JButton("");
-		btnLeft.setBounds(216, 657, 40, 40);
+		btnLeft.setBounds(216, 668, 40, 40);
 		contentPane.add(btnLeft);
 
 		btnDown = new JButton("");
-		btnDown.setBounds(260, 696, 40, 40);
+		btnDown.setBounds(260, 707, 40, 40);
 		contentPane.add(btnDown);
 
 		btnRight = new JButton("");
-		btnRight.setBounds(302, 657, 40, 40);
+		btnRight.setBounds(302, 668, 40, 40);
 		contentPane.add(btnRight);
 
 		btn1 = new JButton("");
-		btn1.setBounds(24, 617, 151, 46);
+		btn1.setFont(new Font("굴림", Font.PLAIN, 14));
+		btn1.setBounds(24, 628, 151, 46);
 		contentPane.add(btn1);
 
 		btn3 = new JButton("");
-		btn3.setBounds(24, 690, 151, 46);
+		btn3.setFont(new Font("굴림", Font.PLAIN, 14));
+		btn3.setBounds(24, 701, 151, 46);
 		contentPane.add(btn3);
 
 		textArea.setBackground(Color.WHITE);
@@ -1975,38 +1995,73 @@ public class Gui extends JFrame {
 
 		contentPane.add(textArea);
 		JScrollPane scrollPane = new JScrollPane(textArea); // 스크롤판 추가
-		scrollPane.setLocation(24, 491);
-		scrollPane.setSize(508, 116);
+		scrollPane.setLocation(24, 502);
+		scrollPane.setSize(404, 116);
 		getContentPane().add(scrollPane);
 
 		hp = new JTextField();
+		hp.setForeground(Color.RED);
+		hp.setFont(new Font("굴림", Font.PLAIN, 14));
 		hp.setEditable(false);
-		hp.setBackground(new Color(255, 51, 51));
-		hp.setBounds(24, 460, 93, 21);
+		hp.setBackground(new Color(255, 204, 204));
+		hp.setBounds(24, 460, 93, 32);
 		contentPane.add(hp);
 		hp.setColumns(10);
 
 		mp = new JTextField();
+		mp.setFont(new Font("굴림", Font.PLAIN, 14));
+		mp.setForeground(Color.BLUE);
 		mp.setEditable(false);
-		mp.setBackground(new Color(0, 204, 255));
-		mp.setBounds(128, 460, 93, 21);
+		mp.setBackground(new Color(204, 255, 255));
+		mp.setBounds(128, 460, 93, 32);
 		contentPane.add(mp);
 		mp.setColumns(10);
 
 		monHp = new JTextField();
-		monHp.setBackground(new Color(147, 112, 219));
+		monHp.setForeground(new Color(255, 102, 0));
+		monHp.setFont(new Font("굴림", Font.PLAIN, 13));
+		monHp.setBackground(new Color(255, 255, 204));
 		monHp.setEditable(false);
-		monHp.setBounds(336, 460, 196, 21);
+		monHp.setBounds(336, 460, 196, 32);
 		contentPane.add(monHp);
 		monHp.setColumns(10);
 
 		stage = new JTextField();
+		stage.setFont(new Font("굴림", Font.PLAIN, 15));
 		stage.setForeground(Color.BLUE);
 		stage.setEditable(false);
 		stage.setBackground(SystemColor.control);
-		stage.setBounds(232, 460, 92, 21);
+		stage.setBounds(232, 460, 92, 32);
 		contentPane.add(stage);
 		stage.setColumns(10);
+		
+		maxHp = new JTextField();
+		maxHp.setEditable(false);
+		maxHp.setBackground(SystemColor.menu);
+		maxHp.setBounds(438, 504, 94, 21);
+		contentPane.add(maxHp);
+		maxHp.setColumns(10);
+		
+		atk = new JTextField();
+		atk.setBackground(SystemColor.menu);
+		atk.setEditable(false);
+		atk.setColumns(10);
+		atk.setBounds(438, 535, 94, 21);
+		contentPane.add(atk);
+		
+		def = new JTextField();
+		def.setEditable(false);
+		def.setBackground(SystemColor.menu);
+		def.setColumns(10);
+		def.setBounds(438, 566, 94, 21);
+		contentPane.add(def);
+		
+		re = new JTextField();
+		re.setBackground(SystemColor.menu);
+		re.setEditable(false);
+		re.setColumns(10);
+		re.setBounds(438, 597, 94, 21);
+		contentPane.add(re);
 //		this.getContentPane().add(scrollPane);
 
 	}
