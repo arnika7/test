@@ -220,7 +220,7 @@ public class Control {
 				if (data.playX == data.monStat[i][3]) {
 					if (data.playY + 1 == data.monStat[i][4]) {
 						bat = new Battle(this, data, ui, i);
-						ui.addText("Me  VS  Moster " + i);
+						ui.addText("Me  VS  " + ui.monster[i]);
 						bat.start();
 						try {
 							synchronized (this) {
@@ -239,7 +239,7 @@ public class Control {
 				if (data.playX == data.monStat[i][3]) {
 					if (data.playY - 1 == data.monStat[i][4]) {
 						bat = new Battle(this, data, ui, i);
-						ui.addText("Me  VS  Moster " + i);
+						ui.addText("Me  VS  " + ui.monster[i]);
 						bat.start();
 						try {
 							synchronized (this) {
@@ -258,7 +258,7 @@ public class Control {
 				if (data.playY == data.monStat[i][4]) {
 					if (data.playX - 1 == data.monStat[i][3]) {
 						bat = new Battle(this, data, ui, i);
-						ui.addText("Me  VS  Moster " + i);
+						ui.addText("Me  VS  " + ui.monster[i]);
 						bat.start();
 						try {
 							synchronized (this) {
@@ -277,7 +277,7 @@ public class Control {
 				if (data.playY == data.monStat[i][4]) {
 					if (data.playX + 1 == data.monStat[i][3]) {
 						bat = new Battle(this, data, ui, i);
-						ui.addText("Me  VS  Moster " + i);
+						ui.addText("Me  VS  " + ui.monster[i]);
 						bat.start();
 						try {
 							synchronized (this) {
@@ -297,13 +297,13 @@ public class Control {
 //		ui.btn2.setText("2. 스킬 사용");
 //		ui.btn3.setText("3. 아이템 사용");
 //		ui.btn4.setText("4. 도망");
-		ui.monHp.setText("  Monster " + i + " HP: " + data.monStat[i][0]);
+		ui.monHp.setText("  " + ui.monster[i] + " HP: " + data.monStat[i][0]);
 		ActionListener bt1 = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double dmg = data.playAtk + data.playAtk * (Math.random() * 0.4 - 0.2);
 				data.monStat[i][0] -= dmg;
 				if (data.monStat[i][0] <= 0) {
-					ui.addText("Me 의 공격!  ▶   Mon Hp: 0" + "  ( -" + (int) dmg + " )");
+					ui.addText(" Me 의 공격!  ▶   Mon Hp: 0" + "  ( -" + (int) dmg + " )");
 					ui.addText("-- 처치했습니다! --\n");
 					data.monStat[i][4] = 9;
 					data.monStat[i][3] = i;
@@ -311,12 +311,12 @@ public class Control {
 					ui.monHp.setText("");
 					noti();
 				} else {
-					ui.addText("Me 의 공격!  ▶   Mon Hp: " + data.monStat[i][0] + "  ( -" + (int) dmg + " )");
+					ui.addText(" Me 의 공격!  ▶   Mon Hp: " + data.monStat[i][0] + "  ( -" + (int) dmg + " )");
 					dmg = data.monStat[i][2] + data.monStat[i][2] * (Math.random() * 0.4 - 0.2);
 					data.playH -= dmg;
-					ui.addText("Monster " + i + " 의 공격!  ▶   Me Hp: " + data.playH + "  ( -" + (int) dmg + " )\n");
+					ui.addText(ui.monster[i] + "의 공격!  ▶   Me Hp: " + data.playH + "  ( -" + (int) dmg + " )\n");
 					ui.setData(data);
-					ui.monHp.setText("  Monster " + i + " HP: " + data.monStat[i][0]);
+					ui.monHp.setText("  " + ui.monster[i] + " HP: " + data.monStat[i][0]);
 					if (data.playH <= 0) {
 						ui.addText("  GAME OVER  ");
 						ui.btn1.removeActionListener(this);
@@ -361,6 +361,8 @@ public class Control {
 	}
 
 	public void monAppear(Data data, int i) {
+		if (i < 4)
+			i = 4;
 		switch (i) {
 		case 4:
 			data.monStat[0][4] = (int) (Math.random() * 6 + 3);
@@ -376,10 +378,39 @@ public class Control {
 			data.monStat[3][3] = (int) (Math.random() * 8 + 2);
 			break;
 		case 5:
-//			
+			data.monStat[0][4] = (int) (Math.random() * 6 + 3);
+			data.monStat[0][3] = (int) (Math.random() * 4);
+
+			data.monStat[1][4] = (int) (Math.random() * 6 + 3);
+			data.monStat[1][3] = (int) (Math.random() * 3 + 7);
+
+			data.monStat[2][4] = (int) (Math.random() * 6 + 3);
+			data.monStat[2][3] = (int) (Math.random() * 3 + 4);
+
+			data.monStat[3][4] = (int) (Math.random() * 3);
+			data.monStat[3][3] = (int) (Math.random() * 4 + 3);
+
+			data.monStat[4][4] = (int) (Math.random() * 3);
+			data.monStat[4][3] = (int) (Math.random() * 3 + 7);
 			break;
 		case 6:
-			
+			data.monStat[0][4] = (int) (Math.random() * 5 + 4);
+			data.monStat[0][3] = (int) (Math.random() * 4);
+
+			data.monStat[1][4] = (int) (Math.random() * 5 + 4);
+			data.monStat[1][3] = (int) (Math.random() * 3 + 7);
+
+			data.monStat[2][4] = (int) (Math.random() * 5 + 4);
+			data.monStat[2][3] = (int) (Math.random() * 3 + 4);
+
+			data.monStat[3][4] = (int) (Math.random() * 3);
+			data.monStat[3][3] = (int) (Math.random() * 4 + 3);
+
+			data.monStat[4][4] = (int) (Math.random() * 3);
+			data.monStat[4][3] = (int) (Math.random() * 3 + 7);
+
+			data.monStat[5][4] = 3;
+			data.monStat[5][3] = (int) (Math.random() * 10);
 			break;
 
 		}
@@ -457,8 +488,7 @@ class Move extends Thread {
 
 	public void run() {
 		ui.addText("*********************************************");
-		ui.addText("  몬스터들과 불을 피해 별을 다 모으세요!");
-		ui.addText("  몬스터는 숫자가 높을수록 더 강합니다.");
+		ui.addText("    동물과 불을 피해 별을 다 모으세요!");
 		ui.addText("*********************************************");
 
 		while (true) {
@@ -466,7 +496,7 @@ class Move extends Thread {
 			ui.addText("");
 			ui.addText("  Stage " + i + ". START!!");
 			ui.makeTrap(i);
-			con.monAppear(data, 4);
+			con.monAppear(data, i);
 			con.starAppear(data, i);
 			while (true) {
 				con.playerMove(data, ui);

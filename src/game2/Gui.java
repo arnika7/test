@@ -116,6 +116,7 @@ public class Gui extends JFrame {
 	private JTextField mp;
 	JTextField monHp;
 	JTextField stage;
+	String[] monster = {" 토끼"," 사슴"," 여우"," 늑대","호랑이","  곰","코끼리"};
 
 	/**
 	 * Launch the application.
@@ -328,7 +329,7 @@ public class Gui extends JFrame {
 
 		setT(data.playX, data.playY, "Me");
 		for (int i = 0; i < 6; i++) {
-			setT(data.monStat[i][3], data.monStat[i][4], "Mon" + i);
+			setT(data.monStat[i][3], data.monStat[i][4], monster[i]);
 		}
 		for (int j = 0; j < 10; j++) {
 			setT(data.star[j][0],data.star[j][1],"   ★");
